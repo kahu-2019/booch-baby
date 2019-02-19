@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import {connect} from 'react-redux'
+import {navigate} from '../actions'
 import { Navbar } from "react-bulma-components/full";
 import AboutModal from "./AboutModal";
 
@@ -23,6 +25,14 @@ class BoochNavbar extends Component {
   }
 
   render() {
+    let navigateHome = (e) => {
+      e.preventDefault()
+      this.props.navigateTo('listing')
+    }
+    let navigateCart = (e) => {
+      e.preventDefault()
+      this.props.navigateTo('cart')
+    }
     return (
       <div className="main-nav">
         <nav className="navbar" role="navigation" aria-label="main navigation">
@@ -46,7 +56,7 @@ class BoochNavbar extends Component {
 
           <div id="navbarBasicExample" className="navbar-menu">
             <div className="navbar-start">
-              <a className="navbar-item" href="/">
+              <a onClick={navigateHome} className="navbar-item" href="/">
                 Home
               </a>
               <a className="navbar-item" onClick={this.handleChange}>
@@ -60,7 +70,7 @@ class BoochNavbar extends Component {
             <div className="navbar-end">
               <div className="navbar-item">
                 <div className="buttons">
-                  <a className="button is-primary">
+                  <a onClick={navigateCart} className="button is-primary">
                     <strong>My Cart</strong>
                   </a>
                 </div>
@@ -73,4 +83,10 @@ class BoochNavbar extends Component {
   }
 }
 
-export default BoochNavbar;
+function mapDispatchToProps(dispatch) {
+  return {
+    navigateTo: (page) => dispatch(navigate(page))
+  }
+}
+
+export default connect(undefined, mapDispatchToProps)(BoochNavbar);
